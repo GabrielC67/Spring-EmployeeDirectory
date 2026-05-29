@@ -15,6 +15,7 @@ public class Employee{
     private Employee manager;
     private Department department;
     private Date hireDate;
+    private int dpt_num;
 
     public Employee(String employeeNumber, String firstName, String lastName, String title, String phoneNumber, String emailAddress) {
         this.employeeNumber = employeeNumber;
@@ -103,4 +104,6 @@ public class Employee{
     public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
     }
+
+
 }

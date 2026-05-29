@@ -17,7 +17,6 @@ public class EmployeeTest {
     String emailAddress = null;
     Date hireDate = null;
     Employee manager = null;
-    Department dpt_num = null;
 
     @Before
     public void setup(){
@@ -65,5 +64,15 @@ public class EmployeeTest {
         assertEquals(hireDate, employee.getHireDate());
     }
 
+    @Test
+    public void testSetDepartment(){
+
+        Department department = new Department(101, "Engineering", manager);
+
+        employee.setDepartment(department);
+
+        assertEquals(department, employee.getDepartment());
+
+    }
 
 }
