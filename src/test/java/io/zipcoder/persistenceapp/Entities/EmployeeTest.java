@@ -65,11 +65,5 @@ public class EmployeeTest {
         assertEquals(hireDate, employee.getHireDate());
     }
 
-    @Test
-    public void testSetEmployeesDepartment() {
-
-
-    }
-
 
 }

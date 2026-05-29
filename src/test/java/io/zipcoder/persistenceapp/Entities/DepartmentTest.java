@@ -30,6 +30,7 @@ public class DepartmentTest {
        assertEquals(dpt_num, department.getDpt_num());
        assertEquals(dpt_name, department.getDpt_name());
        assertEquals(dpt_manager, department.getDpt_manager());
+
     }
 
 }
