@@ -13,7 +13,7 @@ public class Employee{
 
     @ManyToOne
     @JoinColumn(name="manager_id")
-    private Employee dpt_manager;
+    private Employee manager;
 
 
     @Id
@@ -94,12 +94,12 @@ public class Employee{
         this.employeeNumber = employeeNumber;
     }
 
-    public void setDpt_manager(Employee dpt_manager) {
-        this.dpt_manager = dpt_manager;
+    public void setManager(Employee manager) {
+        this.manager = manager;
     }
 
-    public Employee getDpt_manager() {
-        return dpt_manager;
+    public Employee getManager() {
+        return manager;
     }
 
     public Department getDepartment() {
