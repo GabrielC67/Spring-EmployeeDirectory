@@ -1,21 +1,32 @@
 package io.zipcoder.persistenceapp.Entities;
 
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Employee{
 
+    @ManyToOne
+    @JoinColumn(name="department_id", nullable = false)
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name="manager_id")
+    private Employee dpt_manager;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String employeeNumber;
     private String firstName;
     private String lastName;
     private String title;
     private String phoneNumber;
     private String emailAddress;
-    private Employee manager;
-    private Department department;
     private Date hireDate;
-    private int dpt_num;
 
     public Employee(String employeeNumber, String firstName, String lastName, String title, String phoneNumber, String emailAddress) {
         this.employeeNumber = employeeNumber;
@@ -26,8 +37,10 @@ public class Employee{
         this.emailAddress = emailAddress;
     }
 
+    //Default Constructor
     public Employee() {
     }
+
 
     public Long getId() {
         return id;
@@ -81,12 +94,12 @@ public class Employee{
         this.employeeNumber = employeeNumber;
     }
 
-    public void setManager(Employee manager) {
-        this.manager = manager;
+    public void setDpt_manager(Employee dpt_manager) {
+        this.dpt_manager = dpt_manager;
     }
 
-    public Employee getManager() {
-        return manager;
+    public Employee getDpt_manager() {
+        return dpt_manager;
     }
 
     public Department getDepartment() {

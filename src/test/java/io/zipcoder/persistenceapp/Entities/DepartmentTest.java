@@ -13,11 +13,6 @@ public class DepartmentTest {
     private String dpt_name;
     private Employee dpt_manager;
 
-//    @Before
-//    void SetUp() {
-//        department = new Department(dpt_num, dpt_name, dpt_manager);
-//    }
-
     @Test
     public void createDepartment(){
        dpt_num = 25;

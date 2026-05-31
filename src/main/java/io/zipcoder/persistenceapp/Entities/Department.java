@@ -1,12 +1,26 @@
 package io.zipcoder.persistenceapp.Entities;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Department{
 
-    private Long id;
-    private int dpt_num;
-    private String dpt_name;
+    @OneToMany(mappedBy="department")
+    private Set<Employee> employees;
+
+    @OneToOne
+    @JoinColumn(name="manager_id")
     private Employee dpt_manager;
 
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int dpt_num;
+    private String dpt_name;
+
+    //Default Constructor
     public Department(){}
 
     public Department(Integer dpt_num, String dpt_name, Employee dpt_manager){
@@ -15,12 +29,20 @@ public class Department{
         this.dpt_manager = dpt_manager;
     }
 
-    public int getDpt_num() {
-        return dpt_num;
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setDpt_num(Integer dpt_num) {
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void setDpt_num(int dpt_num) {
         this.dpt_num = dpt_num;
+    }
+
+    public int getDpt_num() {
+        return dpt_num;
     }
 
     public String getDpt_name() {

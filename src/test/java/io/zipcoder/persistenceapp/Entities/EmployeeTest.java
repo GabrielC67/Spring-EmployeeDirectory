@@ -45,14 +45,14 @@ public class EmployeeTest {
     }
 
     @Test
-    public void testSetManager(){
+    public void testSetDptmanager(){
 
         Employee manager = new Employee("A123456", "Maxwell", "Newman",
                 "Lead Software Development Manager", "888-888-8888", "mnewman@test.com");
 
-        employee.setManager(manager);
+        employee.setDpt_manager(manager);
 
-        assertEquals(manager, employee.getManager());
+        assertEquals(manager, employee.getDpt_manager());
     }
 
     @Test
