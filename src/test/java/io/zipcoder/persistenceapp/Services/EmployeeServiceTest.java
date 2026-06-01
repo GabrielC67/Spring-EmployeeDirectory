@@ -8,7 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -28,32 +31,51 @@ public class EmployeeServiceTest {
     String phoneNumber;
     String emailAddress;
     Date hireDate;
-    Employee employee;
+    Employee employee1;
+    Employee employee2;
+    Employee employee3;
+    List<Employee> employeeList;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        employeeNumber= "M654889";
-        firstName = "Rebekah";
-        lastName = "Hartzel";
-        title = "Medical Assistant";
-        phoneNumber = "888-999-0000";
-        emailAddress = "rHMed@test.net";
-        hireDate = new Date();
-        employee = new Employee(employeeNumber, firstName, lastName, title, phoneNumber,
-                emailAddress);
+        employee1 = new Employee("M654889", "Rebekah", "Hartzel", "Medical Assistant",
+                "888-999-0000", "rHMed@test.net");
+        employee2 = new Employee("T654896", "Gabe", "Cruz", "Senior Full-Stack Developer",
+                "555-555-5555", "gCTech@test.net");
+        employee3 = new Employee("K657892", "Tere", "Arroyo", "Restaurant Manager",
+                "333-333-3333", "tARest@test.net");
+        employeeList = new ArrayList<>();
+
+        employeeList.add(employee1);
+        employeeList.add(employee2);
+        employeeList.add(employee3);
+
     }
 
     @Test
     public void testCreateEmployee(){
         //Given
-        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
 
         //When
-        Employee result = employeeService.createEmployee(employee);
+        Employee result = employeeService.createEmployee(employee1);
 
-        assertNotNull(employee);
+        assertNotNull(employee1);
+        assertEquals("Rebekah", result.getFirstName());
+    }
+
+    @Test
+    public void testFindEmployee(){
+        //Given
+        when(employeeRepository.findOne(anyLong())).thenReturn(employee1);
+
+        //When
+        Employee result = employeeService.findEmployee(1L);
+
+        //Then
+        assertNotNull(result);
         assertEquals("Rebekah", result.getFirstName());
     }
 }
