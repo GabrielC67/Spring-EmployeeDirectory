@@ -78,4 +78,40 @@ public class EmployeeServiceTest {
         assertNotNull(result);
         assertEquals("Rebekah", result.getFirstName());
     }
+
+    @Test
+    public void testFindAllEmployees(){
+        //Given
+        when(employeeRepository.findAll()).thenReturn((Iterable<Employee>) employeeList);
+
+        //When
+        List<Employee> result = employeeService.findAllEmployees();
+
+        //Then
+        assertNotNull(result);
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    public void testUpdateEmployee(){
+        // Given
+        employee2.setFirstName("Jackson");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
+
+        // When
+        Employee result = employeeService.updateEmployee(employee2);
+
+        // Then
+        assertNotNull(result);
+        assertEquals("Jackson", result.getFirstName()); // ← Check result!
+    }
+
+    @Test
+    public void testDeleteEmployee(){
+
+        employeeService.deleteEmployee(3L);
+
+        //Then
+        verify(employeeRepository).delete(3L);
+    }
 }

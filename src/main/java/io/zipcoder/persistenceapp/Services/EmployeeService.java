@@ -5,6 +5,7 @@ import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,4 +27,17 @@ public class EmployeeService {
     }
 
 
+    public List<Employee> findAllEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        employeeRepository.findAll().forEach(employees::add);
+        return employees;
+    }
+
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
+
+    public void deleteEmployee(long id) {
+        employeeRepository.delete(id);
+    }
 }
