@@ -24,13 +24,6 @@ public class EmployeeServiceTest {
     @InjectMocks
     private EmployeeService employeeService;
 
-    String employeeNumber;
-    String firstName;
-    String lastName;
-    String title;
-    String phoneNumber;
-    String emailAddress;
-    Date hireDate;
     Employee employee1;
     Employee employee2;
     Employee employee3;
