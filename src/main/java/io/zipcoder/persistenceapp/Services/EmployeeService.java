@@ -40,4 +40,15 @@ public class EmployeeService {
     public void deleteEmployee(long id) {
         employeeRepository.delete(id);
     }
+
+    public Employee updateEmployeeManager(long id, Employee manager) {
+        Employee employee = employeeRepository.findOne(id);
+        employee.setManager(manager);
+        return employeeRepository.save(employee);
+    }
+
+    public List<Employee> getEmployeesUnderManager(Long managerId) {
+        Employee manager = employeeRepository.findOne(managerId);
+        return employeeRepository.findByManager(manager);
+    }
 }

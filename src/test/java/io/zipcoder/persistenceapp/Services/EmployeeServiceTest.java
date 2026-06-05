@@ -27,6 +27,7 @@ public class EmployeeServiceTest {
     Employee employee1;
     Employee employee2;
     Employee employee3;
+    Employee manager;
     List<Employee> employeeList;
 
     @Before
@@ -39,12 +40,14 @@ public class EmployeeServiceTest {
                 "555-555-5555", "gCTech@test.net");
         employee3 = new Employee("K657892", "Tere", "Arroyo", "Restaurant Manager",
                 "333-333-3333", "tARest@test.net");
+        manager = new Employee("MD654897", "Jack", "Alltrade", "Development Manager",
+                "789-456-0152", "jATrades@test.net");
         employeeList = new ArrayList<>();
 
         employeeList.add(employee1);
         employeeList.add(employee2);
         employeeList.add(employee3);
-
+        employeeList.add(manager);
     }
 
     @Test
@@ -107,4 +110,36 @@ public class EmployeeServiceTest {
         //Then
         verify(employeeRepository).delete(3L);
     }
+
+    @Test
+    public void testUpdateEmployeesManager(){
+
+        when(employeeRepository.findOne(1L)).thenReturn(employee1);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+
+        Employee result = employeeService.updateEmployeeManager(1L, manager);
+
+        assertNotNull(result);
+        assertEquals(manager, result.getManager());
+
+    }
+
+    @Test
+    public void testGetEmployeesUnderManager(){
+        //Given
+        when(employeeRepository.findOne(anyLong())).thenReturn(manager);
+        when(employeeRepository.findByManager(manager)).thenReturn(employeeList);
+
+        //When
+        List<Employee> result = employeeService.getEmployeesUnderManager(4L);
+
+
+
+        //Then
+        assertNotNull(employeeList);
+        System.out.println(result);
+        assertEquals(employeeList, result);
+    }
+
+
 }
