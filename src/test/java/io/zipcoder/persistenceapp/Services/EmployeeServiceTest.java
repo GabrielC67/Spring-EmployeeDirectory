@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -28,7 +26,8 @@ public class EmployeeServiceTest {
     Employee employee2;
     Employee employee3;
     Employee manager;
-    List<Employee> employeeList;
+    List<Employee> employeeList1;
+    List<Employee> employeeList2;
 
     @Before
     public void setUp() throws Exception {
@@ -42,12 +41,15 @@ public class EmployeeServiceTest {
                 "333-333-3333", "tARest@test.net");
         manager = new Employee("MD654897", "Jack", "Alltrade", "Development Manager",
                 "789-456-0152", "jATrades@test.net");
-        employeeList = new ArrayList<>();
+        employeeList1 = new ArrayList<>();
+        employeeList2 = new ArrayList<>();
 
-        employeeList.add(employee1);
-        employeeList.add(employee2);
-        employeeList.add(employee3);
-        employeeList.add(manager);
+        employeeList1.add(employee1);
+        employeeList1.add(employee2);
+        employeeList1.add(manager);
+
+        employeeList2.add(employee3);
+
     }
 
     @Test
@@ -78,7 +80,7 @@ public class EmployeeServiceTest {
     @Test
     public void testFindAllEmployees(){
         //Given
-        when(employeeRepository.findAll()).thenReturn((Iterable<Employee>) employeeList);
+        when(employeeRepository.findAll()).thenReturn((Iterable<Employee>) employeeList1);
 
         //When
         List<Employee> result = employeeService.findAllEmployees();
@@ -128,7 +130,7 @@ public class EmployeeServiceTest {
     public void testGetEmployeesUnderManager(){
         //Given
         when(employeeRepository.findOne(anyLong())).thenReturn(manager);
-        when(employeeRepository.findByManager(manager)).thenReturn(employeeList);
+        when(employeeRepository.findByManager(manager)).thenReturn(employeeList1);
 
         //When
         List<Employee> result = employeeService.getEmployeesUnderManager(4L);
@@ -136,10 +138,22 @@ public class EmployeeServiceTest {
 
 
         //Then
-        assertNotNull(employeeList);
+        assertNotNull(employeeList1);
         System.out.println(result);
-        assertEquals(employeeList, result);
+        assertEquals(employeeList1, result);
     }
 
+    @Test
+    public void testGetEmployeesWhenManagerIsNull(){
+        //Given
+        when(employeeRepository.findOne(anyLong())).thenReturn(null);
+        when(employeeRepository.findByManagerIsNull()).thenReturn(employeeList2);
 
+        //When
+        List<Employee> result = employeeService.getEmployeesWithoutManager();
+
+        //Then
+        assertNotNull(employeeList2);
+        assertEquals(employeeList2, result);
+    }
 }

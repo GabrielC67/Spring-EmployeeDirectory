@@ -51,4 +51,9 @@ public class EmployeeService {
         Employee manager = employeeRepository.findOne(managerId);
         return employeeRepository.findByManager(manager);
     }
+
+
+    public List<Employee> getEmployeesWithoutManager() {
+        return employeeRepository.findByManagerIsNull();
+    }
 }
