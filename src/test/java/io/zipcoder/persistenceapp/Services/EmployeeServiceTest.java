@@ -127,9 +127,9 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeeName(){
+    public void testUpdateEmployeeFirstName(){
         // Given
-        employee2.setFirstName("Jackson");
+        employee2.setFirstName("Jordan");
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
 
         // When
@@ -137,10 +137,22 @@ public class EmployeeServiceTest {
 
         // Then
         assertNotNull(result);
-        assertEquals("Jackson", result.getFirstName());
+        assertEquals("Jordan", result.getFirstName());
     }
 
+    @Test
+    public void testUpdateEmployeeLastName(){
+        //Given
+        employee3.setLastName("Brown");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee3);
 
+        //When
+        Employee result = employeeService.updateEmployee(employee3);
+
+        //Then
+        assertNotNull(result);
+        assertEquals("Brown", result.getLastName());
+    }
 
     @Test
     public void testDeleteEmployee(){
