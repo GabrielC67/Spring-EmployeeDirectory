@@ -195,7 +195,17 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeeEmailAddress(){}
+    public void testUpdateEmployeeEmailAddress(){
+        //Given
+        employee2.setEmailAddress("gab@test.net");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee2);
+
+        //Then
+        assertEquals("gab@test.net", result.getEmailAddress());
+    }
 
     @Test
     public void testUpdateEmployeeHireDate(){}
