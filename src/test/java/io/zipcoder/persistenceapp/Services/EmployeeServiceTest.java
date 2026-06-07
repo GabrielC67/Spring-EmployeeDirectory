@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,30 +114,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployee(){
-        // Given
-        employee2.setFirstName("Jackson");
-        when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
-
-        // When
-        Employee result = employeeService.updateEmployee(employee2);
-
-        // Then
-        assertNotNull(result);
-        assertEquals("Jackson", result.getFirstName()); // ← Check result!
-    }
-
-    @Test
-    public void testDeleteEmployee(){
-
-        employeeService.deleteEmployee(3L);
-
-        //Then
-        verify(employeeRepository).delete(3L);
-    }
-
-    @Test
-    public void testUpdateEmployeesManager(){
+    public void testUpdateEmployeeToSetManager(){
 
         when(employeeRepository.findOne(1L)).thenReturn(employee1);
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
@@ -149,6 +125,33 @@ public class EmployeeServiceTest {
         assertEquals(manager, result.getManager());
 
     }
+
+    @Test
+    public void testUpdateEmployeeName(){
+        // Given
+        employee2.setFirstName("Jackson");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
+
+        // When
+        Employee result = employeeService.updateEmployee(employee2);
+
+        // Then
+        assertNotNull(result);
+        assertEquals("Jackson", result.getFirstName());
+    }
+
+
+
+    @Test
+    public void testDeleteEmployee(){
+
+        employeeService.deleteEmployee(3L);
+
+        //Then
+        verify(employeeRepository).delete(3L);
+    }
+
+
 
     @Test
     public void testGetEmployeesUnderManager(){
@@ -209,4 +212,10 @@ public class EmployeeServiceTest {
         assertNotNull(result);
         assertEquals(employeeList1, result);
     }
+
+    @Test
+    public void testMergeDepartments(){}
+
+    @Test
+    public void testRemoveAllUnderManager(){}
 }
