@@ -47,6 +47,10 @@ public class EmployeeService {
         employeeRepository.delete(id);
     }
 
+    public void removeAllEmployees() {
+        employeeRepository.deleteAll();
+    }
+
     public Employee updateEmployeeManager(long id, Employee manager) {
         Employee employee = employeeRepository.findOne(id);
         employee.setManager(manager);
@@ -88,4 +92,6 @@ public class EmployeeService {
         Department department = departmentRepository.findOne(departmentId);
         return employeeRepository.findByDepartment(department);
     }
+
+
 }

@@ -20,7 +20,11 @@ public class DepartmentTest {
        dpt_manager = new Employee("A123456", "Jekyll", "Hyde", "Lead Engineering Manager",
                "555-555-5555", "JHyde@test.com");
 
-       department = new Department(dpt_num, dpt_name, dpt_manager);
+       department = new Department();
+
+       department.setDpt_num(dpt_num);
+       department.setDpt_name(dpt_name);
+       department.setDpt_manager(dpt_manager);
 
        assertEquals(dpt_num, department.getDpt_num());
        assertEquals(dpt_name, department.getDpt_name());

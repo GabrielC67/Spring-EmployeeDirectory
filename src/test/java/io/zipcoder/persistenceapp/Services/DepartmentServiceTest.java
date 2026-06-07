@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +77,10 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void updateDepartmentTest(){
+    public void testUpdateDepartmentNumber(){}
+
+    @Test
+    public void testUpdateDepartmentName(){
         //Given
         dpt_02.setDpt_name("Leadership");
         when(departmentRepository.save(any(Department.class))).thenReturn(dpt_02);
@@ -87,6 +91,30 @@ public class DepartmentServiceTest {
         //Then
         assertNotNull(result);
         assertEquals("Leadership", result.getDpt_name());
+    }
+
+    @Test
+    public void testUpdateDepartmentManager() throws Exception{
+        //Given
+        dpt_01Manager.setEmployeeNumber("H986459");
+        dpt_01Manager.setFirstName("Roger");
+        dpt_01Manager.setLastName("Federer");
+        dpt_01Manager.setPhoneNumber("(123) 654-9874");
+        dpt_01Manager.setEmailAddress("Rf@test.net");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        Date newManagerHireDate = sdf.parse("08-01-2019");
+        dpt_01Manager.setHireDate(newManagerHireDate);
+
+        dpt_01.setDpt_manager(dpt_01Manager);
+
+        when(departmentRepository.save(any(Department.class))).thenReturn(dpt_01);
+
+        //Then
+        Department result = departmentService.updateDepartment(dpt_01);
+
+        //When
+        assertEquals(dpt_01, result);
     }
 
     @Test
