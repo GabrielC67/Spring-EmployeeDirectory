@@ -182,7 +182,17 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeePhoneNumber(){}
+    public void testUpdateEmployeePhoneNumber(){
+        //Given
+        employee1.setPhoneNumber("(321) 654-9870");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee1);
+
+        //Then
+        assertEquals("(321) 654-9870", result.getPhoneNumber());
+    }
 
     @Test
     public void testUpdateEmployeeEmailAddress(){}
