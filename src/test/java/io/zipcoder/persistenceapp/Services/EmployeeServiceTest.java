@@ -169,6 +169,31 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void testUpdateEmployeeTitle(){
+        //Given
+        employee1.setTitle("Chief Medical Officer");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee1);
+
+        //Then
+        assertEquals("Chief Medical Officer", result.getTitle());
+    }
+
+    @Test
+    public void testUpdateEmployeePhoneNumber(){}
+
+    @Test
+    public void testUpdateEmployeeEmailAddress(){}
+
+    @Test
+    public void testUpdateEmployeeHireDate(){}
+
+    @Test
+    public void testUpdateEmployeesDepartment(){}
+
+    @Test
     public void testDeleteEmployee(){
 
         employeeService.deleteEmployee(3L);
@@ -176,8 +201,6 @@ public class EmployeeServiceTest {
         //Then
         verify(employeeRepository).delete(3L);
     }
-
-
 
     @Test
     public void testGetEmployeesUnderManager(){
