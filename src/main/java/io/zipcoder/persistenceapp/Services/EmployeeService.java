@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -55,5 +57,26 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesWithoutManager() {
         return employeeRepository.findByManagerIsNull();
+    }
+
+    public List<Employee> getReportingHierarchy(Long employeeId) {
+        List<Employee> hierarchy = new ArrayList<>();
+        Set<Long> visited = new HashSet<>();
+
+        Employee employee = employeeRepository.findOne(employeeId);
+
+        while (employee.getManager() != null) {
+            Employee manager = employee.getManager();
+            Long managerId = manager.getId();
+
+            if (!visited.add(managerId)){
+                break; // cycle detected!
+            }
+
+            hierarchy.add(manager);
+            employee = manager;
+        }
+
+        return hierarchy;
     }
 }

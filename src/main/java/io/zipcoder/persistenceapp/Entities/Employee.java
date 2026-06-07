@@ -41,6 +41,10 @@ public class Employee{
     public Employee() {
     }
 
+    //Use for Mock testing only.
+    public void setId(Long id){
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

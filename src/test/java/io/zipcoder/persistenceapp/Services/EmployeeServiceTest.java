@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,10 @@ public class EmployeeServiceTest {
     Employee employee2;
     Employee employee3;
     Employee manager;
+    Employee aboveManager;
     List<Employee> employeeList1;
     List<Employee> employeeList2;
+    List<Employee> employeeHierarchy;
 
     @Before
     public void setUp() throws Exception {
@@ -41,15 +44,31 @@ public class EmployeeServiceTest {
                 "333-333-3333", "tARest@test.net");
         manager = new Employee("MD654897", "Jack", "Alltrade", "Development Manager",
                 "789-456-0152", "jATrades@test.net");
+        aboveManager = new Employee("TOP001", "Sarah", "Connor",
+                "VP Engineering", "111-111-1111", "sconnor@test.net");
+
+        employee1.setId(1L);
+        employee2.setId(2L);
+        employee3.setId(3L);
+        manager.setId(4L);
+        aboveManager.setId(5L);
+
         employeeList1 = new ArrayList<>();
         employeeList2 = new ArrayList<>();
+        employeeHierarchy = new ArrayList<>();
 
         employeeList1.add(employee1);
         employeeList1.add(employee2);
         employeeList1.add(manager);
 
+        employee1.setManager(manager);
+        employee2.setManager(manager);
+        manager.setManager(aboveManager);
+
         employeeList2.add(employee3);
 
+        employeeHierarchy.add(manager);
+        employeeHierarchy.add(aboveManager);
     }
 
     @Test
@@ -135,8 +154,6 @@ public class EmployeeServiceTest {
         //When
         List<Employee> result = employeeService.getEmployeesUnderManager(4L);
 
-
-
         //Then
         assertNotNull(employeeList1);
         System.out.println(result);
@@ -155,5 +172,20 @@ public class EmployeeServiceTest {
         //Then
         assertNotNull(employeeList2);
         assertEquals(employeeList2, result);
+    }
+
+    @Test
+    public void testEmployeeHierarchy(){
+        //Given
+        when(employeeRepository.findOne(anyLong())).thenReturn(employee1);
+        when(employeeRepository.findByManager(manager)).thenReturn(employeeList1);
+        when(employeeRepository.findByManager(aboveManager)).thenReturn(employeeHierarchy);
+
+        //When
+        List<Employee> result = employeeService.getReportingHierarchy(1L);
+
+        //Then
+        assertNotNull(employeeHierarchy);
+        assertEquals(employeeHierarchy, result);
     }
 }
