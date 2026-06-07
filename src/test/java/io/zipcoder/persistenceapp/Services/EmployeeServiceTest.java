@@ -155,6 +155,20 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void testUpdateEmployeeNumber(){
+        //Given
+        employee2.setEmployeeNumber("SE654927");
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee2);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee2);
+
+        //Then
+        assertNotNull(result);
+        assertEquals("SE654927", result.getEmployeeNumber());
+    }
+
+    @Test
     public void testDeleteEmployee(){
 
         employeeService.deleteEmployee(3L);
