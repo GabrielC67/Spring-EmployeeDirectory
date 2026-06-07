@@ -226,7 +226,18 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeesDepartment(){}
+    public void testUpdateEmployeesDepartment(){
+        //Given
+        Department newDepartment = new Department(5, "testDepartment", null);
+        employee1.setDepartment(newDepartment);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee1);
+
+        //Then
+        assertEquals(newDepartment, result.getDepartment());
+    }
 
     @Test
     public void testDeleteEmployee(){
