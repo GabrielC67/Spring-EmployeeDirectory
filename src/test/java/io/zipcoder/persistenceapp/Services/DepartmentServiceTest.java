@@ -82,7 +82,15 @@ public class DepartmentServiceTest {
 
     @Test
     public void testUpdateDepartmentNumber(){
+        //Given
+        dpt_03.setDpt_num(4);
+        when(departmentRepository.save(any(Department.class))).thenReturn(dpt_03);
 
+        //When
+        Department result = departmentService.updateDepartment(dpt_03);
+
+        //Then
+        assertEquals(4, result.getDpt_num());
     }
 
     @Test
