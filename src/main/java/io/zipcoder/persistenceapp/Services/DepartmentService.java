@@ -2,6 +2,7 @@ package io.zipcoder.persistenceapp.Services;
 
 import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
+import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.omg.DynamicAny.DynEnumOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.List;
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public DepartmentService(DepartmentRepository departmentRepository) {
+    public DepartmentService(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository) {
         this.departmentRepository = departmentRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public Department createDepartment(Department department){

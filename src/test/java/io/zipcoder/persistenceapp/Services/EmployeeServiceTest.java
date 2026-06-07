@@ -258,6 +258,11 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    public void testRemoveAllEmployeesFromDepartment(){
+        employeeService.removeAllEmployeesFromDepartment();
+    }
+
+    @Test
     public void testGetEmployeesUnderManager(){
         //Given
         when(employeeRepository.findOne(anyLong())).thenReturn(manager);

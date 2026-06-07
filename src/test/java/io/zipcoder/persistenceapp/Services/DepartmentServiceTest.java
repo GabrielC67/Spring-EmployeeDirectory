@@ -3,6 +3,7 @@ package io.zipcoder.persistenceapp.Services;
 import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Entities.Employee;
 import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
+import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -24,6 +25,9 @@ public class DepartmentServiceTest {
 
     @Mock
     private DepartmentRepository departmentRepository;
+
+    @Mock
+    private EmployeeRepository employeeRepository;
 
     @InjectMocks
     private DepartmentService departmentService;
@@ -77,7 +81,9 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void testUpdateDepartmentNumber(){}
+    public void testUpdateDepartmentNumber(){
+
+    }
 
     @Test
     public void testUpdateDepartmentName(){
