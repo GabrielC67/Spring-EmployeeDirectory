@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -208,7 +210,20 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeeHireDate(){}
+    public void testUpdateEmployeeHireDate() throws Exception {
+        //Given
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        Date correctedHireDate = sdf.parse("02-01-2023");
+
+        employee3.setHireDate(correctedHireDate);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee3);
+
+        //When
+        Employee result = employeeService.updateEmployee(employee3);
+
+        //Then
+        assertEquals(correctedHireDate, result.getHireDate());
+    }
 
     @Test
     public void testUpdateEmployeesDepartment(){}
