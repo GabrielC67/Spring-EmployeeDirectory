@@ -1,6 +1,8 @@
 package io.zipcoder.persistenceapp.Services;
 
+import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Entities.Employee;
+import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
 import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,9 @@ public class EmployeeServiceTest {
 
     @Mock
     private EmployeeRepository employeeRepository;
+
+    @Mock
+    private DepartmentRepository departmentRepository;
 
     @InjectMocks
     private EmployeeService employeeService;
@@ -187,5 +192,21 @@ public class EmployeeServiceTest {
         //Then
         assertNotNull(employeeHierarchy);
         assertEquals(employeeHierarchy, result);
+    }
+
+    @Test
+    public void testFindByDepartment(){
+        //Given
+        Department department = new Department(1, "Engineering", manager);
+
+        when(departmentRepository.findOne(anyLong())).thenReturn(department);
+        when(employeeRepository.findByDepartment(department)).thenReturn(employeeList1);
+
+        //When
+        List<Employee> result = employeeService.getEmployeesByDepartment(1L);
+
+        //Then
+        assertNotNull(result);
+        assertEquals(employeeList1, result);
     }
 }

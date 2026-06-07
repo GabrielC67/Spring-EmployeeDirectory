@@ -1,6 +1,8 @@
 package io.zipcoder.persistenceapp.Services;
 
+import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Entities.Employee;
+import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
 import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import java.util.Set;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository){
+    public EmployeeService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository){
         this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
     }
 
     public Employee createEmployee(Employee employee) {
@@ -78,5 +82,10 @@ public class EmployeeService {
         }
 
         return hierarchy;
+    }
+
+    public List<Employee> getEmployeesByDepartment(Long departmentId) {
+        Department department = departmentRepository.findOne(departmentId);
+        return employeeRepository.findByDepartment(department);
     }
 }

@@ -41,7 +41,7 @@ public class Employee{
     public Employee() {
     }
 
-    //Use for Mock testing only.
+    //Use for Mock testing only. NOt used for real database.
     public void setId(Long id){
         this.id = id;
     }
