@@ -17,7 +17,7 @@ public class Department{
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int dpt_num;
+    private Integer dpt_num;
     private String dpt_name;
 
     //Default Constructor
@@ -37,7 +37,7 @@ public class Department{
         this.employees = employees;
     }
 
-    public void setDpt_num(int dpt_num) {
+    public void setDpt_num(Integer dpt_num) {
         this.dpt_num = dpt_num;
     }
 

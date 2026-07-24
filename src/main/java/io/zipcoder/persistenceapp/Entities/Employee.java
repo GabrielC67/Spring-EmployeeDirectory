@@ -8,7 +8,7 @@ import java.util.Date;
 public class Employee{
 
     @ManyToOne
-    @JoinColumn(name="department_id", nullable = false)
+    @JoinColumn(name="department_id")
     private Department department;
 
     @ManyToOne

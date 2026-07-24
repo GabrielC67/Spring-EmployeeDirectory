@@ -11,10 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import static java.lang.System.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,6 +33,11 @@ public class DepartmentServiceTest {
 
     List<Department> departmentList;
 
+    List<Employee> employeeList;
+
+    Employee employee1;
+    Employee employee2;
+
     Employee dpt_01Manager;
     Employee dpt_02Manager;
     Employee dpt_03Manager;
@@ -42,9 +46,22 @@ public class DepartmentServiceTest {
     Department dpt_02;
     Department dpt_03;
 
+    Set<Employee> employeesInDpt_01;
+
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
+
+        employee1 = new Employee("M654889", "Rebekah", "Hartzel", "Medical Assistant",
+                "888-999-0000", "rHMed@test.net");
+        employee2 = new Employee("T654896", "Gabe", "Cruz", "Senior Full-Stack Developer",
+                "555-555-5555", "gCTech@test.net");
+
+        employeeList = new ArrayList<>();
+
+        employeeList.add(employee1);
+        employeeList.add(employee2);
+
 
         dpt_01Manager = new Employee("H123654", "Adam", "Cole",
                 "Director of Human Resources", "(555) 789-3214",
@@ -59,12 +76,17 @@ public class DepartmentServiceTest {
                 "(450) 225-8956", "JFatu@test.com");
         dpt_03 = new Department(3, "Sales", dpt_03Manager);
 
-        departmentList = new ArrayList<Department>(){};
+        departmentList = new ArrayList<>();
 
         departmentList.add(dpt_01);
         departmentList.add(dpt_02);
         departmentList.add(dpt_03);
 
+        employeesInDpt_01 = new HashSet<>();
+        employeesInDpt_01.add(employee1);
+        employeesInDpt_01.add(employee2);
+
+        dpt_01.setEmployees(employeesInDpt_01);
     }
 
     @Test
@@ -124,10 +146,10 @@ public class DepartmentServiceTest {
 
         when(departmentRepository.save(any(Department.class))).thenReturn(dpt_01);
 
-        //Then
+        //When
         Department result = departmentService.updateDepartment(dpt_01);
 
-        //When
+        //Then
         assertEquals(dpt_01, result);
     }
 
@@ -163,5 +185,18 @@ public class DepartmentServiceTest {
 
         //Then
         verify(departmentRepository).delete(2L);
+    }
+
+    @Test
+    public void testRemoveAllEmployeesFromDepartment(){
+        //Given
+        when(departmentRepository.findOne(any(Long.class))).thenReturn(dpt_01);
+
+        //When
+        departmentService.removeAllEmployeesFromDpt(1L);
+
+        //Then
+        verify(employeeRepository).save(employee1);
+        verify(employeeRepository).save(employee2);
     }
 }

@@ -258,11 +258,6 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testRemoveAllEmployeesFromDepartment(){
-//        employeeService.removeAllEmployeesFromDepartment();
-    }
-
-    @Test
     public void testGetEmployeesUnderManager(){
         //Given
         when(employeeRepository.findOne(anyLong())).thenReturn(manager);
@@ -322,9 +317,9 @@ public class EmployeeServiceTest {
         assertEquals(employeeList1, result);
     }
 
-    @Test
-    public void testMergeDepartments(){}
-
-    @Test
-    public void testRemoveAllUnderManager(){}
+//    @Test
+//    public void testMergeDepartments(){}
+//
+//    @Test
+//    public void testRemoveAllUnderManager(){}
 }

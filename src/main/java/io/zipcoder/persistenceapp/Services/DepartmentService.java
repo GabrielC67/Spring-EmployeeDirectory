@@ -1,14 +1,15 @@
 package io.zipcoder.persistenceapp.Services;
 
 import io.zipcoder.persistenceapp.Entities.Department;
+import io.zipcoder.persistenceapp.Entities.Employee;
 import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
 import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
-import org.omg.DynamicAny.DynEnumOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DepartmentService {
@@ -43,5 +44,16 @@ public class DepartmentService {
 
     public void deleteDepartment(Long id){
         departmentRepository.delete(id);
+    }
+
+
+    public void removeAllEmployeesFromDpt(Long departmentId) {
+        Department department = departmentRepository.findOne(departmentId);
+        Set<Employee> setOfEmployees = department.getEmployees();
+
+        for(Employee employee : setOfEmployees){
+            employee.setDepartment(null);
+            employeeRepository.save(employee);
+        }
     }
 }
