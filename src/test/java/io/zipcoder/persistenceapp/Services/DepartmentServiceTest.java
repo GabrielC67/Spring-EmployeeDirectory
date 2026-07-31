@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.lang.System.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;

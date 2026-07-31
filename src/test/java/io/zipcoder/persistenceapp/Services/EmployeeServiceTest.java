@@ -1,5 +1,6 @@
 package io.zipcoder.persistenceapp.Services;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
 import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Entities.Employee;
 import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
@@ -9,11 +10,10 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import sun.awt.image.ImageWatched;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -37,6 +37,9 @@ public class EmployeeServiceTest {
     List<Employee> employeeList1;
     List<Employee> employeeList2;
     List<Employee> employeeHierarchy;
+
+    Queue<Employee> employeeQueue;
+
 
     @Before
     public void setUp() throws Exception {
@@ -75,6 +78,8 @@ public class EmployeeServiceTest {
 
         employeeHierarchy.add(manager);
         employeeHierarchy.add(aboveManager);
+
+        employeeQueue = new LinkedList<>();
     }
 
     @Test
@@ -315,6 +320,38 @@ public class EmployeeServiceTest {
         //Then
         assertNotNull(result);
         assertEquals(employeeList1, result);
+    }
+
+    @Test
+    public void testGetAllReports(){
+        //Given
+        // Tree: manager(4) → employee1(1) → employee2(2)
+        // employee1 reports to manager; employee2 reports to employee1
+        employee1.setManager(manager);
+        employee2.setManager(manager);
+        employee3.setManager(employee1);
+
+        List<Employee> directReportsOfManager = new ArrayList<>();
+        directReportsOfManager.add(employee1);
+        directReportsOfManager.add(employee2);
+
+        List<Employee> directReportsOfEmployee1 = new ArrayList<>();
+        directReportsOfEmployee1.add(employee3);
+
+        List<Employee> noReports = new ArrayList<>();
+
+        when(employeeRepository.findOne(4L)).thenReturn(manager);
+        when(employeeRepository.findByManager(manager)).thenReturn(directReportsOfManager);
+        when(employeeRepository.findByManager(employee1)).thenReturn(directReportsOfEmployee1);
+        when(employeeRepository.findByManager(employee2)).thenReturn(noReports);
+
+        //When
+        List<Employee> result = employeeService.getAllReports(4L);
+
+        //Then
+        assertEquals(3, result.size());
+        assertTrue(result.contains(employee1));
+        assertTrue(result.contains(employee2));
     }
 
 //    @Test

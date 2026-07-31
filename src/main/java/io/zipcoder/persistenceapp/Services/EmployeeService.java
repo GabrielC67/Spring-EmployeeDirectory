@@ -7,10 +7,7 @@ import io.zipcoder.persistenceapp.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class EmployeeService {
@@ -94,4 +91,19 @@ public class EmployeeService {
     }
 
 
+    public List<Employee> getAllReports(Long managerId) {
+        List<Employee> allReports = new ArrayList<>();
+        Queue<Employee> employeeQueue = new LinkedList<>();
+
+        Employee manager = employeeRepository.findOne(managerId);
+        employeeQueue.addAll(employeeRepository.findByManager(manager));
+
+        while(!employeeQueue.isEmpty()){
+            Employee currentEmployee = employeeQueue.poll();
+            allReports.add(currentEmployee);
+            employeeQueue.addAll(employeeRepository.findByManager(currentEmployee));
+        }
+
+        return allReports;
+    }
 }
