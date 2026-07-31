@@ -1,6 +1,5 @@
 package io.zipcoder.persistenceapp.Services;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 import io.zipcoder.persistenceapp.Entities.Department;
 import io.zipcoder.persistenceapp.Entities.Employee;
 import io.zipcoder.persistenceapp.Repositories.DepartmentRepository;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import sun.awt.image.ImageWatched;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -354,8 +352,6 @@ public class EmployeeServiceTest {
         assertTrue(result.contains(employee2));
     }
 
-//    @Test
-//    public void testMergeDepartments(){}
 //
 //    @Test
 //    public void testRemoveAllUnderManager(){}

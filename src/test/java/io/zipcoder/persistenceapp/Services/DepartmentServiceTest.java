@@ -198,4 +198,19 @@ public class DepartmentServiceTest {
         verify(employeeRepository).save(employee1);
         verify(employeeRepository).save(employee2);
     }
+
+    @Test
+    public void testMergeDepartmentManagers() {
+        //Given
+        when(departmentRepository.findOne(1L)).thenReturn(dpt_01);
+        when(departmentRepository.findOne(2L)).thenReturn(dpt_02);
+
+        //When
+        departmentService.mergeDepartments(1L, 2L);
+
+        //Then
+        assertEquals(dpt_01Manager, dpt_02Manager.getManager());
+    }
+
+
 }

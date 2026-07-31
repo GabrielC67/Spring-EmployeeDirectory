@@ -56,4 +56,14 @@ public class DepartmentService {
             employeeRepository.save(employee);
         }
     }
+
+    public void mergeDepartments(Long dptA_id, Long dptB_id) {
+        Department deptA = departmentRepository.findOne(dptA_id);
+        Department deptB = departmentRepository.findOne(dptB_id);
+
+        Employee deptA_manager = deptA.getDpt_manager();
+        Employee deptB_manager = deptB.getDpt_manager();
+
+        deptB_manager.setManager(deptA_manager);
+    }
 }
