@@ -36,6 +36,7 @@ public class DepartmentServiceTest {
 
     Employee employee1;
     Employee employee2;
+    Employee employee3;
 
     Employee dpt_01Manager;
     Employee dpt_02Manager;
@@ -46,6 +47,7 @@ public class DepartmentServiceTest {
     Department dpt_03;
 
     Set<Employee> employeesInDpt_01;
+    Set<Employee> employeesInDpt_02;
 
     @Before
     public void setup(){
@@ -55,11 +57,15 @@ public class DepartmentServiceTest {
                 "888-999-0000", "rHMed@test.net");
         employee2 = new Employee("T654896", "Gabe", "Cruz", "Senior Full-Stack Developer",
                 "555-555-5555", "gCTech@test.net");
+        employee3 = new Employee("E654987", "Jacob", "Fatu", "Junior Python Engineer",
+                "321-654-8739", "jFEng@test.net");
+
 
         employeeList = new ArrayList<>();
 
         employeeList.add(employee1);
         employeeList.add(employee2);
+        employeeList.add(employee3);
 
 
         dpt_01Manager = new Employee("H123654", "Adam", "Cole",
@@ -86,6 +92,11 @@ public class DepartmentServiceTest {
         employeesInDpt_01.add(employee2);
 
         dpt_01.setEmployees(employeesInDpt_01);
+
+        employeesInDpt_02 = new HashSet<>();
+
+        employeesInDpt_02.add(employee3);
+        dpt_02.setEmployees(employeesInDpt_02);
     }
 
     @Test
@@ -206,11 +217,24 @@ public class DepartmentServiceTest {
         when(departmentRepository.findOne(2L)).thenReturn(dpt_02);
 
         //When
-        departmentService.mergeDepartments(1L, 2L);
+        departmentService.mergeDepartmentManagers(1L, 2L);
 
         //Then
         assertEquals(dpt_01Manager, dpt_02Manager.getManager());
     }
 
+    @Test
+    public void testMergeDepartments() {
+        //Given
+        when(departmentRepository.findOne(1L)).thenReturn(dpt_01);
+        when(departmentRepository.findOne(2L)).thenReturn(dpt_02);
 
+        //When
+        departmentService.mergeDepartments(1L, 2L);
+        departmentService.mergeDepartmentManagers(1L, 2L);
+
+        //Then
+        assertEquals(dpt_01.getEmployees(), employeesInDpt_01);
+        verify(employeeRepository).save(employee3);
+    }
 }

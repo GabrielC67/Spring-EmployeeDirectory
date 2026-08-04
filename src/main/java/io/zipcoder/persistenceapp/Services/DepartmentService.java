@@ -23,26 +23,26 @@ public class DepartmentService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Department createDepartment(Department department){
+    public Department createDepartment(Department department) {
         return departmentRepository.save(department);
     }
 
-    public Department updateDepartment(Department department){
+    public Department updateDepartment(Department department) {
         return departmentRepository.save(department);
     }
 
-    public Department findDepartment(Long id){
+    public Department findDepartment(Long id) {
         return departmentRepository.findOne(id);
 
     }
 
-    public List<Department> findAllDepartments(){
+    public List<Department> findAllDepartments() {
         List<Department> departments = new ArrayList<>();
         departmentRepository.findAll().forEach(departments::add);
         return departments;
     }
 
-    public void deleteDepartment(Long id){
+    public void deleteDepartment(Long id) {
         departmentRepository.delete(id);
     }
 
@@ -51,13 +51,13 @@ public class DepartmentService {
         Department department = departmentRepository.findOne(departmentId);
         Set<Employee> setOfEmployees = department.getEmployees();
 
-        for(Employee employee : setOfEmployees){
+        for (Employee employee : setOfEmployees) {
             employee.setDepartment(null);
             employeeRepository.save(employee);
         }
     }
 
-    public void mergeDepartments(Long dptA_id, Long dptB_id) {
+    public void mergeDepartmentManagers(Long dptA_id, Long dptB_id) {
         Department deptA = departmentRepository.findOne(dptA_id);
         Department deptB = departmentRepository.findOne(dptB_id);
 
@@ -65,5 +65,15 @@ public class DepartmentService {
         Employee deptB_manager = deptB.getDpt_manager();
 
         deptB_manager.setManager(deptA_manager);
+    }
+
+    public void mergeDepartments(Long dptA_id, Long dptB_id) {
+        Department deptA = departmentRepository.findOne(dptA_id);
+        Department deptB = departmentRepository.findOne(dptB_id);
+
+        for (Employee employee : deptB.getEmployees()) {
+            employee.setDepartment(deptA);
+            employeeRepository.save(employee);
+        }
     }
 }
