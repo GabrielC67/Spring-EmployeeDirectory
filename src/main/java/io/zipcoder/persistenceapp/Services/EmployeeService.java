@@ -106,4 +106,28 @@ public class EmployeeService {
 
         return allReports;
     }
+
+    public void removeAllUnderManager(Long managerId) {
+        List<Employee> reports = getAllReports(managerId);
+
+        for (Employee employee : reports) {
+            employeeRepository.delete(employee.getId());
+        }
+    }
+
+    public void removeDirectReports(Long managerId) {
+        Employee manager = employeeRepository.findOne(managerId);
+        List<Employee> directReports = employeeRepository.findByManager(manager);
+
+        for (Employee directReport : directReports) {
+            List<Employee> grandchildren = employeeRepository.findByManager(directReport);
+
+            for (Employee grandchild : grandchildren) {
+                grandchild.setManager(manager);
+                employeeRepository.save(grandchild);
+            }
+
+            employeeRepository.delete(directReport.getId());
+        }
+    }
 }

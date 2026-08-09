@@ -352,7 +352,63 @@ public class EmployeeServiceTest {
         assertTrue(result.contains(employee2));
     }
 
-//
-//    @Test
-//    public void testRemoveAllUnderManager(){}
+
+    @Test
+    public void testRemoveAllUnderManager(){
+        //Given
+        employee1.setManager(manager);
+        employee2.setManager(employee2);
+
+        List<Employee> directReportsOfManager = new ArrayList<>();
+        directReportsOfManager.add(employee1);
+
+        List<Employee> directReportsOfEmployee1 = new ArrayList<>();
+        directReportsOfEmployee1.add(employee2);
+
+        List<Employee> noReports = new ArrayList<>();
+
+        when(employeeRepository.findOne(4L)).thenReturn(manager);
+        when(employeeRepository.findByManager(manager)).thenReturn(directReportsOfManager);
+        when(employeeRepository.findByManager(employee1)).thenReturn(directReportsOfEmployee1);
+        when(employeeRepository.findByManager(employee2)).thenReturn(noReports);
+
+        //When
+        employeeService.removeAllUnderManager(4L);
+
+        //Then
+        verify(employeeRepository).delete(employee1.getId());
+        verify(employeeRepository).delete(employee2.getId());
+    }
+
+    @Test
+    public void testRemoveThenReassignEmployeesToManager(){
+        //Given
+        employee1.setManager(manager);
+        employee2.setManager(manager);
+        employee3.setManager(employee1);
+
+        List<Employee> directReports = new ArrayList<>();
+        directReports.add(employee1);
+        directReports.add(employee2);
+
+        List<Employee> employee1Reports = new ArrayList<>();
+        employee1Reports.add(employee3);
+
+        List<Employee> noReports = new ArrayList<>();
+
+        when(employeeRepository.findOne(4L)).thenReturn(manager);
+        when(employeeRepository.findByManager(manager)).thenReturn(directReports);
+        when(employeeRepository.findByManager(employee1)).thenReturn(employee1Reports);
+        when(employeeRepository.findByManager(employee2)).thenReturn(noReports);
+
+        //When
+        employeeService.removeDirectReports(4L);
+
+        //Then
+        // Behavior A: employee3 (grandchild) promoted to manager and saved
+        verify(employeeRepository).save(employee3);
+        // Behavior B: both direct reports deleted
+        verify(employeeRepository).delete(employee1.getId());
+        verify(employeeRepository).delete(employee2.getId());
+    }
 }
